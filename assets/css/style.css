@@ -64,6 +64,7 @@ img {
 }
 
 .music-album-photo {
+  position: relative;
   height: 180px;
   width: 180px;
   overflow: hidden;
@@ -74,6 +75,30 @@ img {
     0 0 2px #fff,
     13px 13px 20px #a7aaaf,
     -13px -13px 20px #fff;
+}
+.music-album-photo::after {
+  content: "";
+  width: 30px;
+  height: 30px;
+  background: #ddd;
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translateX(-50%) translateY(-50%);
+  border-radius: 50%;
+  box-shadow: 
+    inset 4px 4px 4px rgba(0, 0, 0, 0.3);
+}
+.music-album-photo img {
+  animation: 5s rotate linear infinite;
+}
+@keyframes rotate {
+  0% {
+    transform: rotate(0deg);
+  }
+  100% {
+    transform: rotate(360deg);
+  }
 }
 
 .music-detail {
