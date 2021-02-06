@@ -89,7 +89,7 @@ img {
   box-shadow: 
     inset 4px 4px 4px rgba(0, 0, 0, 0.3);
 }
-.music-album-photo img {
+.disc-animation {
   animation: 5s rotate linear infinite;
 }
 @keyframes rotate {
