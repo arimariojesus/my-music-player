@@ -1,6 +1,7 @@
 * {
   margin: 0;
   padding: 0;
+  outline: none;
   box-sizing: border-box;
 }
 body {
@@ -128,39 +129,52 @@ img {
   font-family: sans-serif;
   font-size: 10px;
   color: #666;
-}
-.play-timeline .timeline-bar {
-  margin-top: 2px;
-  height: 5px;
-  width: 100%;
-  background: rgba(163, 159, 159, 0.3);
-  border: 1px solid rgba(163, 159, 159, 0.3);
-  border-radius: 50px;
-  cursor: pointer;
-}
-.play-timeline .timeline-bar::before {
-  content: "";
-  position: absolute;
-  height: 8px;
-  width: 8px;
-  background: cornflowerblue;
-  margin-top: -3px;
-  margin-left: 35%;
-  border-radius: 50%;
-  box-shadow: 
-    0 0 0 4px #e2e8ee,
-    0 0 2px #fff,
-    4px 4px 9px #a7aaaf,
-    -4px -4px 9px #fff;
   z-index: 2;
 }
-.play-timeline .timeline-bar::after {
-  content: "";
-  position: absolute;
-  height: 5px;
-  width: 35%;
-  background: cornflowerblue;
-  z-index: 1;
+.timeline-bar {
+  margin-top: 4px;
+}
+.timeline-bar input {
+  -webkit-appearance: none;
+  width: 100%;
+  height: 10px;
+  background: transparent;
+  border-radius: 15px;
+  overflow: hidden;
+  cursor: pointer;
+  box-shadow: 
+    0 0 0 3px #e2e8ee,
+    0 0 5px rgba(255, 255, 255, 1),
+    4px 4px 15px #a7aaaf,
+    -4px -10px 8px rgba(255, 255, 255, 0.8),
+    inset 2px 2px 4px rgba(153, 154, 154, 0.4),
+    inset -2px -2px 4px rgba(255, 255, 255, 0.8);
+}
+.timeline-bar input::-webkit-slider-thumb {
+  -webkit-appearance: none;
+  width: 10px;
+  height: 10px;
+  border-radius: 50%;
+  background: rgba(77, 104, 243, 1);
+  box-shadow: 
+    -100vw 0 0 calc(100vw - 10px/2) rgba(77, 104, 243, 1),
+    4px 2px 6px #a7aaaf;
+}
+.timeline-bar input::-moz-range-thumb {
+  -webkit-appearance: none;
+  width: 10px;
+  height: 10px;
+  border-radius: 50%;
+  background: rgba(77, 104, 243, 1);
+  box-shadow: 
+    -100vw 0 0 calc(100vw - 10px/2) rgba(77, 104, 243, 1),
+    4px 2px 6px #a7aaaf;
+}
+.timeline-bar input:active::-webkit-slider-thumb {
+  border: 2px solid #fff;
+}
+.timeline-bar input:active::-moz-range-thumb {
+  border: 2px solid #fff;
 }
 
 .music-changer {
