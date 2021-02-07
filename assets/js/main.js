@@ -26,13 +26,12 @@ playBtn.addEventListener('click', function(e) {
 });
 
 function convertSecondsToMinutes(seconds = 0) {
-  seconds = Math.floor(parseFloat(seconds));
-  let min = Math.floor(seconds / 60);
-  min = (min >= 10) ? min : '0'+min;
-  let sec = (seconds % 60);
-  sec = (sec >= 10) ? sec : '0'+sec;
-
-  return `${min}:${sec}`;
+  const time = new Date(seconds * 1000);
+  return time.toLocaleTimeString('pt-BR', {
+    minute: '2-digit',
+    second: '2-digit',
+    timeZone: 'UTC'
+  });
 }
 
 function timeManipulation() {
