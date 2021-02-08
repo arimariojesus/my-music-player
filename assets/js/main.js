@@ -4,6 +4,7 @@ const disc = document.querySelector('.music-album-photo img');
 const timeline = document.querySelector('.timeline-bar input[type=range]');
 const currentTimeElm = document.querySelector('.time-current');
 const durationTimeElm = document.querySelector('.time-duration');
+const volume = document.querySelector('#volume');
 
 window.onload = function() {
   timeline.min = 0;
@@ -53,3 +54,8 @@ sound.ontimeupdate = () => {
     sound.pause();
   }
 }
+
+volume.addEventListener('input', function(e) {
+  const volumeChange = e.target.value;
+  sound.volume = volumeChange;
+});
