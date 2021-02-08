@@ -18,9 +18,11 @@ function handlePlayPause(elm) {
   if(elm.classList.contains('bx-play')) {
     sound.play();
     elm.classList = 'bx bx-pause';
+    elm.parentElement.classList.add('btn-active');
   }else {
     sound.pause();
     elm.classList = 'bx bx-play';
+    elm.parentElement.classList.remove('btn-active');
   }
 }
 

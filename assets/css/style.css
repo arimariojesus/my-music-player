@@ -53,15 +53,16 @@ img {
   width: 30px;
   line-height: 43px;
   background: #d0dee9;
-  box-shadow: 
-    0 0 0 4px #e2e8ee,
-    0 0 2px #fff,
-    8px 8px 8px #a7aaaf,
-    -8px -8px 15px #fff;
   border-radius: 50%;
   text-align: center;
   cursor: pointer;
   font-size: 12px;
+  box-shadow: 
+    inset 3px 3px 5px rgba(255,255,255,0.8),
+    inset -3px -3px 5px rgba(0,0,0,0.15),
+    -3px -3px 5px rgba(255,255,255,0.8),
+    -3px -3px 5px rgba(255,255,255,1),
+    3px 3px 8px #a7aaaf;
 }
 
 .music-album-photo {
@@ -259,24 +260,54 @@ img {
   margin-top: 60px;
   height: 40px;
   display: flex;
+  align-items: center;
   justify-content: space-evenly;
 }
-.music-changer i {
+.music-changer {
   font-size: 40px;
+}
+.music-changer i {
+  font-size: inherit;
 }
 .prev, .pause, .next {
   display: flex;
   align-items: center;
   justify-content: center;
-  height: 50px;
-  width: 50px;
+  height: 40px;
+  width: 40px;
   background: #d0dee9;
   border-radius: 50%;
   color: #9aa2b1;
   box-shadow: 
+    inset 4px 4px 10px rgba(255,255,255,0.9),
+    inset -4px -4px 6px #a7aaaf,
+    -3px -3px 5px rgba(255,255,255,0.8),
+    -3px -3px 5px rgba(255,255,255,1),
+    6px 6px 8px #a7aaaf;
+  cursor: pointer;
+}
+.pause {
+  width: 50px;
+  height: 50px;
+  box-shadow: 
     0 0 0 4px #e2e8ee,
-    0 0 2px #fff,
+    inset 4px 4px 10px rgba(255,255,255,0.9),
+    inset -4px -4px 6px #a7aaaf,
+    -3px -3px 5px rgba(255,255,255,0.8),
+    -3px -3px 5px rgba(255,255,255,1),
     8px 8px 8px #a7aaaf,
     -8px -8px 15px #fff;
-  cursor: pointer;
+}
+.btn-active {
+  background: rgba(77, 104, 243, 1);
+  color: #e2e8ee;
+  font-size: 34px;
+  box-shadow:
+  0 0 0 4px #e2e8ee,
+  inset -3px -3px 3px rgba(255, 255, 255,0.3),
+  inset -1px -1px 3px rgb(255, 255, 255, 0.6),
+  inset 3px 3px 10px rgba(0,0,0,0.35),
+  0 0 2px #fff,
+  8px 8px 8px #a7aaaf,
+  -8px -8px 15px #fff;
 }
