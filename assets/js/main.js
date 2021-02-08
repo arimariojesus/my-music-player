@@ -56,6 +56,17 @@ sound.ontimeupdate = () => {
 }
 
 volume.addEventListener('input', function(e) {
+  const volumeIcon = e.target.nextElementSibling;
   const volumeChange = e.target.value;
   sound.volume = volumeChange;
+
+  if(parseFloat(volumeChange) > 0.6) {
+    volumeIcon.classList = 'bx bxs-volume-full';
+  }else if(parseFloat(volumeChange) <= 0.6 && parseFloat(volumeChange) > 0.3) {
+    volumeIcon.classList = 'bx bxs-volume-low';
+  }else if(parseFloat(volumeChange) <= 0.3 && parseFloat(volumeChange) > 0) {
+    volumeIcon.classList = 'bx bxs-volume';
+  }else {
+    volumeIcon.classList = 'bx bxs-volume-mute';
+  }
 });
