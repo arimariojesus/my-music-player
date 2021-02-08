@@ -119,9 +119,9 @@ img {
 }
 
 .music-options {
-  margin-top: 20px;
   display: flex;
   justify-content: space-between;
+  position: relative;
   padding: 0 10px;
   color: #9aa2b1;
   font-size: 20px;
@@ -129,14 +129,82 @@ img {
 .music-options div {
   text-shadow: 2px 2px 6px rgba(0, 0, 0, 0.15);
 }
-.like-switch, .volume {
+.like-switch, .volume-wrapper {
   cursor: pointer;
+}
+.like-switch i {
+  position: absolute;
+  bottom: 0;
 }
 #like {
   display: none;
 }
 #like:checked + i {
   color: #AC4A48;
+}
+
+.volume-wrapper {
+  position: relative;
+  right: 0;
+  width: 40px;
+  height: 40px;
+  position: relative;
+}
+.volume-wrapper i {
+  position: absolute;
+  right: 0;
+  bottom: 0;
+}
+.volume-wrapper:hover #volume, #volume:hover{
+  display: block;
+  width: 100px;
+}
+#volume {
+  display: none;
+  -webkit-appearance: none;
+  width: 0px;
+  height: 8px;
+  background: transparent;
+  overflow: hidden;
+  position: absolute;
+  bottom: 75px;
+  right: -40px;
+  transform: rotate(-90deg);
+  cursor: pointer;
+  box-shadow: 
+  0 0 0 3px #e2e8ee,
+  0 0 5px rgba(255, 255, 255, 1),
+  4px 4px 15px #a7aaaf,
+  -4px -10px 8px rgba(255, 255, 255, 0.8),
+  inset 2px 2px 4px rgba(153, 154, 154, 0.4),
+  inset -2px -2px 4px rgba(255, 255, 255, 0.8);
+  transition: .4s;
+}
+#volume::-webkit-slider-thumb {
+  -webkit-appearance: none;
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  background: rgba(77, 104, 243, 1);
+  box-shadow: 
+    -100vw 0 0 calc(100vw - 10px/2) rgba(77, 104, 243, 1),
+    4px 2px 6px #a7aaaf;
+}
+#volume::-moz-range-thumb {
+  -webkit-appearance: none;
+  width: 10px;
+  height: 10px;
+  border-radius: 50%;
+  background: rgba(77, 104, 243, 1);
+  box-shadow: 
+    -100vw 0 0 calc(100vw - 10px/2) rgba(77, 104, 243, 1),
+    4px 2px 6px #a7aaaf;
+}
+#volume:active::-webkit-slider-thumb {
+  border: 2px solid #fff;
+}
+#volume:active::-moz-range-thumb {
+  border: 2px solid #fff;
 }
 
 .play-timeline {
