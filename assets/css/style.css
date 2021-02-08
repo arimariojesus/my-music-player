@@ -118,8 +118,29 @@ img {
   font-size: 13px;
 }
 
+.music-options {
+  margin-top: 20px;
+  display: flex;
+  justify-content: space-between;
+  padding: 0 10px;
+  color: #9aa2b1;
+  font-size: 20px;
+}
+.music-options div {
+  text-shadow: 2px 2px 6px rgba(0, 0, 0, 0.15);
+}
+.like-switch, .volume {
+  cursor: pointer;
+}
+#like {
+  display: none;
+}
+#like:checked + i {
+  color: #AC4A48;
+}
+
 .play-timeline {
-  margin-top: 40px;
+  margin-top: 20px;
   display: flex;
   flex-direction: column;
 }
