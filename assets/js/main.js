@@ -14,16 +14,44 @@ window.onload = function() {
   durationTimeElm.innerHTML = convertSecondsToMinutes(sound.duration);
 }
 
-playBtn.addEventListener('click', function(e) {
-  if(e.target.classList.contains('bx-play')) {
+function handlePlayPause(elm) {
+  if(elm.classList.contains('bx-play')) {
     sound.play();
     disc.classList.add('disc-animation');
-    e.target.classList.replace('bx-play', 'bx-pause');
+    elm.classList = 'bx bx-pause';
   }else {
     sound.pause();
     disc.classList.remove('disc-animation');
-    e.target.classList.replace('bx-pause', 'bx-play');
+    elm.classList = 'bx bx-play';
   }
+}
+
+function handleLike(elm) {
+  if(!elm.classList.contains('like-active'))
+    elm.classList.add('like-active');
+  else
+    elm.classList.remove('like-active');
+}
+
+let lastVolume;
+function handleVolume(elm) {
+  if(!elm.classList.contains('bxs-volume-mute')) {
+    lastVolume = sound.volume;
+    sound.volume = 0;
+    elm.classList = 'bx bxs-volume-mute';
+  }else {
+    sound.volume = lastVolume;
+    handleIconVolume(lastVolume, elm);
+  }
+}
+
+document.addEventListener('click', function(e) {
+  const elm = e.target;
+  const classList = elm.classList;
+
+  if(classList.contains('bx-pause') || classList.contains('bx-play')) handlePlayPause(elm);
+  if(elm.id === 'like-icon') handleLike(elm);
+  if(elm.id === 'volume-icon') handleVolume(elm);
 });
 
 function convertSecondsToMinutes(seconds = 0) {
@@ -55,18 +83,22 @@ sound.ontimeupdate = () => {
   }
 }
 
+function handleIconVolume(volume, iconElm) {
+  if(volume > 0.6) {
+    iconElm.classList = 'bx bxs-volume-full';
+  }else if(volume <= 0.6 && volume > 0.3) {
+    iconElm.classList = 'bx bxs-volume-low';
+  }else if(volume <= 0.3 && volume > 0) {
+    iconElm.classList = 'bx bxs-volume';
+  }else {
+    iconElm.classList = 'bx bxs-volume-mute';
+  }
+}
+
 volume.addEventListener('input', function(e) {
   const volumeIcon = e.target.nextElementSibling;
   const volumeChange = e.target.value;
   sound.volume = volumeChange;
 
-  if(parseFloat(volumeChange) > 0.6) {
-    volumeIcon.classList = 'bx bxs-volume-full';
-  }else if(parseFloat(volumeChange) <= 0.6 && parseFloat(volumeChange) > 0.3) {
-    volumeIcon.classList = 'bx bxs-volume-low';
-  }else if(parseFloat(volumeChange) <= 0.3 && parseFloat(volumeChange) > 0) {
-    volumeIcon.classList = 'bx bxs-volume';
-  }else {
-    volumeIcon.classList = 'bx bxs-volume-mute';
-  }
+  handleIconVolume(volumeChange, volumeIcon);
 });

@@ -34,7 +34,7 @@ img {
   padding: 0 5px;
   display: flex;
   justify-content: space-between;
-  color: #423c38;
+  color: #9aa2b1;
 }
 .music-top-icons i {
   font-size: 24px;
@@ -136,10 +136,7 @@ img {
   position: absolute;
   bottom: 0;
 }
-#like {
-  display: none;
-}
-#like:checked + i {
+.like-active {
   color: #AC4A48;
 }
 
