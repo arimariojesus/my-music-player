@@ -17,11 +17,9 @@ window.onload = function() {
 function handlePlayPause(elm) {
   if(elm.classList.contains('bx-play')) {
     sound.play();
-    disc.classList.add('disc-animation');
     elm.classList = 'bx bx-pause';
   }else {
     sound.pause();
-    disc.classList.remove('disc-animation');
     elm.classList = 'bx bx-play';
   }
 }
@@ -67,12 +65,17 @@ function timeManipulation() {
   currentTimeElm.innerHTML = convertSecondsToMinutes(sound.currentTime);
 }
 
+function rotateDisc(deg) {
+  disc.style.transform = `rotate(${deg}deg)`;
+}
+
 timeline.addEventListener('input', function(e) {
   sound.currentTime = e.target.value;
 });
 
 sound.ontimeupdate = () => {
   timeManipulation();
+  rotateDisc(sound.currentTime * 10);
   timeline.value = sound.currentTime;
 
   if(parseInt(timeline.value) >= parseInt(timeline.max)) {
