@@ -1,3 +1,5 @@
+[![Issues][issues-shield]][issues-url]
+
 <h1 align="center">
   My Music Player
 </h1>
@@ -79,3 +81,6 @@ Distributed under the MIT License. See [LICENSE](./LICENSE) for more information
 <p align="center">
   Made with 💙 and 🎶 by <a href="https://www.linkedin.com/in/arimario-jesus">Ari Jesus</a>
 </p>
+
+[issues-shield]: https://img.shields.io/github/issues/arimariojesus/myMusicPlayer.svg?style=flat-square
+[issues-url]: https://github.com/arimariojesus/myMusicPlayer/issues
