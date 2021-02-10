@@ -311,3 +311,13 @@ img {
   8px 8px 8px #a7aaaf,
   -8px -8px 15px #fff;
 }
+
+@media screen and (max-width: 375px) {
+  body {
+    background: linear-gradient(-45deg, #e4eaee, #d0dee9);
+  }
+  .music-player {
+    box-shadow: none;
+    background: transparent;
+  }
+}
