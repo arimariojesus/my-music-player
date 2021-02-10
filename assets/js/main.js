@@ -11,6 +11,9 @@ window.onload = function() {
   timeline.max = sound.duration;
   timeline.defaultValue = 0;
   timeManipulation();
+}
+
+document.onload = function() {
   durationTimeElm.innerHTML = convertSecondsToMinutes(sound.duration);
 }
 
