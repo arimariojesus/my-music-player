@@ -92,7 +92,7 @@ sound.ontimeupdate = () => {
   }
 }
 
-function handleIconVolume(volume, iconElm) {
+function handleVolumeIcon(volume, iconElm) {
   if(volume > 0.6) {
     iconElm.classList = 'bx bxs-volume-full';
   }else if(volume <= 0.6 && volume > 0.3) {
@@ -109,5 +109,5 @@ volume.addEventListener('input', function(e) {
   const volumeChange = e.target.value;
   sound.volume = volumeChange;
 
-  handleIconVolume(volumeChange, volumeIcon);
+  handleVolumeIcon(volumeChange, volumeIcon);
 });
