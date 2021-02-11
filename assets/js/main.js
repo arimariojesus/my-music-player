@@ -46,7 +46,7 @@ function handleVolume(elm) {
     elm.classList = 'bx bxs-volume-mute';
   }else {
     sound.volume = lastVolume;
-    handleIconVolume(lastVolume, elm);
+    handleVolumeIcon(lastVolume, elm);
   }
 }
 

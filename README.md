@@ -12,7 +12,7 @@
  <a href="#-Meta">Meta</a>
 </p>
 
-![](./assets/images/gif.gif)
+![](./assets/images/myMusicPlayer.gif)
 
 <div align="center">
  <strong>🚧 This project is under construction... 🚧</strong>
