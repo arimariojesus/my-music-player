@@ -20,6 +20,7 @@ img {
   height: 573px;
   width: 320px;
   position: absolute;
+  overflow: hidden;
   background: linear-gradient(-45deg, #e4eaee, #d0dee9);
   box-shadow: 
     13px 13px 20px #cdced1,
