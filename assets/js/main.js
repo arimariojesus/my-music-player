@@ -6,16 +6,14 @@ const currentTimeElm = document.querySelector('.time-current');
 const durationTimeElm = document.querySelector('.time-duration');
 const volume = document.querySelector('#volume');
 
-window.onload = function() {
-  timeline.min = 0;
-  timeline.max = sound.duration;
+function setAttributesOfAudio() {
+  timeline.setAttribute('min', '0');
+  timeline.setAttribute('max', sound.duration);
   timeline.defaultValue = 0;
-  timeManipulation();
-}
-
-document.onload = function() {
   durationTimeElm.innerHTML = convertSecondsToMinutes(sound.duration);
 }
+sound.ondurationchange = setAttributesOfAudio;
+document.addEventListener('DOMContentLoaded', setAttributesOfAudio);
 
 function handlePlayPause(elm) {
   if(elm.classList.contains('bx-play')) {
