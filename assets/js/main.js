@@ -5,6 +5,7 @@ const timeline = document.querySelector('.timeline-bar input[type=range]');
 const currentTimeElm = document.querySelector('.time-current');
 const durationTimeElm = document.querySelector('.time-duration');
 const volume = document.querySelector('#volume');
+const arm = document.querySelector('.arm-wrapper');
 
 function setAttributesOfAudio() {
   timeline.setAttribute('min', '0');
@@ -16,6 +17,8 @@ sound.ondurationchange = setAttributesOfAudio;
 document.addEventListener('DOMContentLoaded', setAttributesOfAudio);
 
 function handlePlayPause(elm) {
+  if(arm.classList.contains('initialPosition')) arm.classList.remove('initialPosition');
+  
   if(elm.classList.contains('bx-play')) {
     sound.play();
     elm.classList = 'bx bx-pause';
@@ -64,8 +67,8 @@ function convertSecondsToMinutes(seconds = 0) {
   });
 }
 
-function timeManipulation() {
-  currentTimeElm.innerHTML = convertSecondsToMinutes(sound.currentTime);
+function timeManipulation(currentTime) {
+  currentTimeElm.innerHTML = convertSecondsToMinutes(currentTime);
 }
 
 function rotateDisc(deg) {
@@ -76,10 +79,22 @@ timeline.addEventListener('input', function(e) {
   sound.currentTime = e.target.value;
 });
 
+let displacimentUnitOfArm = 0;
+function armDisplaciment(time) {
+  let rotationUnit = -10 + (displacimentUnitOfArm * parseFloat(time));
+  
+  arm.style.transform = `rotate(${rotationUnit}deg)`;
+}
+
 sound.ontimeupdate = () => {
-  timeManipulation();
-  rotateDisc(sound.currentTime * 10);
-  timeline.value = sound.currentTime;
+  const currentTime = parseFloat(sound.currentTime);
+
+  armDisplaciment(currentTime);
+  timeManipulation(sound.currentTime);
+  rotateDisc(currentTime * 10);
+  timeline.value = currentTime;
+
+  displacimentUnitOfArm = 26 / parseFloat(sound.duration);
 
   if(parseInt(timeline.value) >= parseInt(timeline.max)) {
     disc.classList.remove('disc-animation');
@@ -87,6 +102,7 @@ sound.ontimeupdate = () => {
     playBtn.children[0].classList.replace('bx-pause', 'bx-play');
     sound.currentTime = 0;
     sound.pause();
+    arm.classList.add('initialPosition');
   }
 }
 

@@ -65,6 +65,12 @@ img {
     3px 3px 8px #a7aaaf;
 }
 
+.recorder-music {
+  position: relative;
+  max-width: 180px;
+  max-height: 180px;
+  margin: 25px auto;
+}
 .music-album-photo {
   position: relative;
   height: 180px;
@@ -92,7 +98,37 @@ img {
     inset 4px 4px 4px rgba(0, 0, 0, 0.3);
 }
 .music-album-photo img {
+  width: 100%;
   transition: .4s;
+}
+.arm-wrapper {
+  width: 250px;
+  height: 250px;
+  z-index: 2;
+  position: relative;
+  right: -80px;
+  top: -320px;
+  transform: rotate(-25deg);
+  transition: .4s;
+  /* animation: 3s rotate linear infinite; */
+}
+.arm {
+  width: 140px;
+  height: 140px;
+  position: absolute;
+  bottom: 0;
+  left: 0;
+}
+.initialPosition {
+  transform: rotate(-25deg) !important;
+}
+@keyframes rotate {
+  0% {
+    transform: rotate(0deg);
+  }
+  100% {
+    transform: rotate(360deg);
+  }
 }
 
 .music-detail {
