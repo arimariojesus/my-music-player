@@ -7,16 +7,15 @@ const durationTimeElm = document.querySelector('.time-duration');
 const volume = document.querySelector('#volume');
 const arm = document.querySelector('.arm-wrapper');
 
-window.onload = function() {
+function setAttributesOfAudio() {
   timeline.min = 0;
   timeline.max = sound.duration;
   timeline.defaultValue = 0;
   timeManipulation();
-}
-
-document.onload = function() {
   durationTimeElm.innerHTML = convertSecondsToMinutes(sound.duration);
 }
+sound.ondurationchange = setAttributesOfAudio;
+document.addEventListener('DOMContentLoaded', setAttributesOfAudio);
 
 function handlePlayPause(elm) {
   if(arm.classList.contains('initialPosition')) arm.classList.remove('initialPosition');
