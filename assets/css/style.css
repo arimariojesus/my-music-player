@@ -58,6 +58,7 @@ img {
   text-align: center;
   cursor: pointer;
   font-size: 12px;
+  z-index: 3;
   box-shadow: 
     inset 3px 3px 5px rgba(255,255,255,0.8),
     inset -3px -3px 5px rgba(0,0,0,0.15),

@@ -98,7 +98,6 @@ sound.ontimeupdate = () => {
   displacimentUnitOfArm = 26 / parseFloat(sound.duration);
 
   if(parseInt(timeline.value) >= parseInt(timeline.max)) {
-    disc.classList.remove('disc-animation');
     playBtn.classList.remove('btn-active');
     playBtn.children[0].classList.replace('bx-pause', 'bx-play');
     sound.currentTime = 0;
