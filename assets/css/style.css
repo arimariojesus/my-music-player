@@ -14,6 +14,8 @@ body {
 }
 img {
   height: 100%;
+  -webkit-user-drag: none;
+  pointer-events: none;
 }
 
 .music-player {
@@ -69,9 +71,10 @@ img {
 
 .recorder-music {
   position: relative;
-  max-width: 180px;
-  max-height: 180px;
-  margin: 25px auto;
+  max-width: 330px;
+  max-height: 230px;
+  margin: 0 auto;
+  overflow: hidden;
 }
 .music-album-photo {
   position: relative;
@@ -108,7 +111,7 @@ img {
   height: 250px;
   z-index: 2;
   position: relative;
-  right: -80px;
+  right: -130px;
   top: -320px;
   transform: rotate(-25deg);
   transition: .4s;
@@ -134,7 +137,7 @@ img {
 }
 
 .music-detail {
-  margin-top: 40px;
+  margin-top: 15px;
   text-align: center;
   font-family: sans-serif;
 }
