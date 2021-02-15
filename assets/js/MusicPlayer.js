@@ -5,7 +5,7 @@ export class MusicPlayer {
   }
 
   handlePlayPause(btn) {
-    if(MusicPlayer.arm.contains('initialPosition'))
+    if(MusicPlayer.arm.classList.contains('initialPosition'))
       MusicPlayer.arm.classList.remove('initialPosition');
 
     if(btn.classList.contains('bx-play')) {
@@ -22,7 +22,7 @@ export class MusicPlayer {
   handleVolume(elm) {
     const lastVolume = MusicPlayer.audio.lastVolume;
     if(!elm.classList.contains('bxs-volume-mute')) {
-      lastVolume = MusicPlayer.audio.volume;
+      MusicPlayer.audio.lastVolume = MusicPlayer.audio.volume;
       MusicPlayer.audio.volume = 0;
       elm.classList = 'bx bxs-volume-mute';
     }else {
@@ -32,7 +32,7 @@ export class MusicPlayer {
     }
   }
 
-  handleVolumeIcon(elm) {
+  handleVolumeIcon(volume, elm) {
     if(volume > 0.6) {
       elm.classList = 'bx bxs-volume-full';
     }else if(volume <= 0.6 && volume > 0.3) {
@@ -58,20 +58,28 @@ export class MusicPlayer {
     armElement.style.transform = `rotate(${rotationUnit}deg)`;
   }
 
-  next() {
+  next(audioState) {
     const listLength = this.musics.length - 1;
     this.current = this.current >= listLength ? 0 : this.current + 1;
-    const src = MusicPlayer.src + this.musics[this.current].src;
-
-    MusicPlayer.audio.setAttribute('src', src);
+    const srcMusic = MusicPlayer.srcMusic + this.musics[this.current].musicFile;
+    const srcAlbum = MusicPlayer.srcAlbum + this.musics[this.current].albumFile;
+    
+    
+    MusicPlayer.audio.setAttribute('src', srcMusic);
+    MusicPlayer.disc.setAttribute('src', srcAlbum);
+    if(audioState) MusicPlayer.audio.play();
   }
 
-  prev() {
+  prev(audioState) {
     const listLength = this.musics.length - 1;
     this.current = this.current <= 0 ? listLength : this.current - 1;
-    const src = MusicPlayer.src + this.musics[this.current].src;
+    const srcMusic = MusicPlayer.srcMusic + this.musics[this.current].musicFile;
+    const srcAlbum = MusicPlayer.srcAlbum + this.musics[this.current].albumFile;
 
-    MusicPlayer.audio.setAttribute('src', src);
+    
+    MusicPlayer.audio.setAttribute('src', srcMusic);
+    MusicPlayer.disc.setAttribute('src', srcAlbum);
+    if(audioState) MusicPlayer.audio.play();
   }
 
   static get audio() {
@@ -94,8 +102,12 @@ export class MusicPlayer {
     return document.querySelector('.timeline-bar > input');
   }
 
-  static get src() {
-    return "../sounds/";
+  static get srcMusic() {
+    return "./assets/sounds/";
+  }
+
+  static get srcAlbum() {
+    return "./assets/images/";
   }
 }
 
