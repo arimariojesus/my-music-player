@@ -1,35 +1,50 @@
-const sound = document.querySelector('#sound');
+import { MusicPlayer } from "./MusicPlayer.js";
+
 const playBtn = document.querySelector('.pause');
-const disc = document.querySelector('.music-album-photo img');
 const timeline = document.querySelector('.timeline-bar input[type=range]');
 const currentTimeElm = document.querySelector('.time-current');
 const durationTimeElm = document.querySelector('.time-duration');
-const volume = document.querySelector('#volume');
 const arm = document.querySelector('.arm-wrapper');
 
+const musics = [
+  {
+    musicFile: "David_Davis-Ocean.mp3",
+    albumFile: "ocean.jpg",
+    name: "Ocean",
+    performer: "David Davis",
+  },
+  {
+    musicFile: "LAWRENCE_BEAMEN_-_Looking_For_Me.mp3",
+    albumFile: "looking-for-me.jpg",
+    name: "Looking For Me",
+    performer: "Lawrence Beamen",
+  },
+  {
+    musicFile: "Alfonso_Lugo_-_Chocolate.mp3",
+    albumFile: "chocolate.jpg",
+    name: "Chocolate",
+    performer: "Alfonso Lugo",
+  },
+  {
+    musicFile: "Pokki_DJ_-_Hold_Me.mp3",
+    albumFile: "hold-me.jpg",
+    name: "Hold Me",
+    performer: "Pokki DJ",
+  },
+];
+
+const MyPlayer = new MusicPlayer(musics);
+
 function setAttributesOfAudio() {
+  const duration = MusicPlayer.audio.duration;
   timeline.min = 0;
-  timeline.max = sound.duration;
+  timeline.max = duration;
   timeline.defaultValue = 0;
   timeManipulation();
-  durationTimeElm.innerHTML = convertSecondsToMinutes(sound.duration);
+  durationTimeElm.innerHTML = convertSecondsToMinutes(duration);
 }
-sound.ondurationchange = setAttributesOfAudio;
+MusicPlayer.audio.ondurationchange = setAttributesOfAudio;
 document.addEventListener('DOMContentLoaded', setAttributesOfAudio);
-
-function handlePlayPause(elm) {
-  if(arm.classList.contains('initialPosition')) arm.classList.remove('initialPosition');
-  
-  if(elm.classList.contains('bx-play')) {
-    sound.play();
-    elm.classList = 'bx bx-pause';
-    elm.parentElement.classList.add('btn-active');
-  }else {
-    sound.pause();
-    elm.classList = 'bx bx-play';
-    elm.parentElement.classList.remove('btn-active');
-  }
-}
 
 function handleLike(elm) {
   if(!elm.classList.contains('like-active'))
@@ -38,25 +53,16 @@ function handleLike(elm) {
     elm.classList.remove('like-active');
 }
 
-let lastVolume;
-function handleVolume(elm) {
-  if(!elm.classList.contains('bxs-volume-mute')) {
-    lastVolume = sound.volume;
-    sound.volume = 0;
-    elm.classList = 'bx bxs-volume-mute';
-  }else {
-    sound.volume = lastVolume;
-    handleVolumeIcon(lastVolume, elm);
-  }
-}
-
 document.addEventListener('click', function(e) {
   const elm = e.target;
   const classList = elm.classList;
+  const stateBtnPlay = playBtn.classList.contains('btn-active');
 
-  if(classList.contains('bx-pause') || classList.contains('bx-play')) handlePlayPause(elm);
+  if(classList.contains('bx-pause') || classList.contains('bx-play')) MyPlayer.handlePlayPause(elm);
   if(elm.id === 'like-icon') handleLike(elm);
-  if(elm.id === 'volume-icon') handleVolume(elm);
+  if(elm.id === 'volume-icon') MyPlayer.handleVolume(elm);
+  if(classList.contains('bx-skip-next')) MyPlayer.next(stateBtnPlay);
+  if(classList.contains('bx-skip-previous')) MyPlayer.prev(stateBtnPlay);
 });
 
 function convertSecondsToMinutes(seconds = 0) {
@@ -72,56 +78,35 @@ function timeManipulation(currentTime) {
   currentTimeElm.innerHTML = convertSecondsToMinutes(currentTime);
 }
 
-function rotateDisc(deg) {
-  disc.style.transform = `rotate(${deg}deg)`;
+function finished() {
+  playBtn.classList.remove('btn-active');
+  playBtn.children[0].classList.replace('bx-pause', 'bx-play');
+  MusicPlayer.audio.currentTime = 0;
+  MusicPlayer.audio.pause();
+  arm.classList.add('initialPosition');
 }
 
 timeline.addEventListener('input', function(e) {
-  sound.currentTime = e.target.value;
+  MusicPlayer.audio.currentTime = e.target.value;
 });
 
-let displacimentUnitOfArm = 0;
-function armDisplaciment(time) {
-  let rotationUnit = -10 + (displacimentUnitOfArm * parseFloat(time));
-  
-  arm.style.transform = `rotate(${rotationUnit}deg)`;
-}
+MusicPlayer.audio.ontimeupdate = () => {
+  const currentTime = parseFloat(MusicPlayer.audio.currentTime);
 
-sound.ontimeupdate = () => {
-  const currentTime = parseFloat(sound.currentTime);
-
-  armDisplaciment(currentTime);
-  timeManipulation(sound.currentTime);
-  rotateDisc(currentTime * 10);
   timeline.value = currentTime;
-
-  displacimentUnitOfArm = 26 / parseFloat(sound.duration);
+  timeManipulation(currentTime);
+  MyPlayer.armDisplacement(currentTime);
+  MyPlayer.rotateDisc(currentTime * 10);
 
   if(parseInt(timeline.value) >= parseInt(timeline.max)) {
-    playBtn.classList.remove('btn-active');
-    playBtn.children[0].classList.replace('bx-pause', 'bx-play');
-    sound.currentTime = 0;
-    sound.pause();
-    arm.classList.add('initialPosition');
+    MyPlayer.next(playBtn.classList.contains('btn-active'));
   }
 }
 
-function handleVolumeIcon(volume, iconElm) {
-  if(volume > 0.6) {
-    iconElm.classList = 'bx bxs-volume-full';
-  }else if(volume <= 0.6 && volume > 0.3) {
-    iconElm.classList = 'bx bxs-volume-low';
-  }else if(volume <= 0.3 && volume > 0) {
-    iconElm.classList = 'bx bxs-volume';
-  }else {
-    iconElm.classList = 'bx bxs-volume-mute';
-  }
-}
-
-volume.addEventListener('input', function(e) {
+MusicPlayer.volume.addEventListener('input', function(e) {
   const volumeIcon = e.target.nextElementSibling;
   const volumeChange = e.target.value;
-  sound.volume = volumeChange;
+  MusicPlayer.audio.volume = volumeChange;
 
-  handleVolumeIcon(volumeChange, volumeIcon);
+  MyPlayer.handleVolumeIcon(volumeChange, volumeIcon);
 });
