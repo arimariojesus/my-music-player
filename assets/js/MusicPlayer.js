@@ -51,10 +51,11 @@ export class MusicPlayer {
 
   armDisplacement(time) {
     const armElement = MusicPlayer.arm;
-    const displacement = MusicPlayer.arm.displacementUnitOfArm;
+    const distanceOfDisplacement = 26;
+    const displacement = distanceOfDisplacement / MusicPlayer.audio.duration;
     const startPositionOnTheDisc = -10;
     const rotationUnit = startPositionOnTheDisc + (displacement * parseFloat(time));
-
+    
     armElement.style.transform = `rotate(${rotationUnit}deg)`;
   }
 
@@ -63,7 +64,6 @@ export class MusicPlayer {
     this.current = this.current >= listLength ? 0 : this.current + 1;
     const srcMusic = MusicPlayer.srcMusic + this.musics[this.current].musicFile;
     const srcAlbum = MusicPlayer.srcAlbum + this.musics[this.current].albumFile;
-    
     
     MusicPlayer.audio.setAttribute('src', srcMusic);
     MusicPlayer.disc.setAttribute('src', srcAlbum);
@@ -75,43 +75,25 @@ export class MusicPlayer {
     this.current = this.current <= 0 ? listLength : this.current - 1;
     const srcMusic = MusicPlayer.srcMusic + this.musics[this.current].musicFile;
     const srcAlbum = MusicPlayer.srcAlbum + this.musics[this.current].albumFile;
-
     
     MusicPlayer.audio.setAttribute('src', srcMusic);
     MusicPlayer.disc.setAttribute('src', srcAlbum);
     if(audioState) MusicPlayer.audio.play();
   }
 
-  static get audio() {
-    return document.getElementById('sound');
-  }
+  static audio = document.getElementById('sound');
 
-  static get disc() {
-    return document.querySelector('.music-album-photo > img');
-  }
+  static disc = document.querySelector('.music-album-photo > img');
 
-  static get arm() {
-    return document.querySelector('.arm-wrapper');
-  }
+  static arm = document.querySelector('.arm-wrapper');
 
-  static get volume() {
-    return document.getElementById('volume');
-  }
+  static volume = document.getElementById('volume');
 
-  static get timeline() {
-    return document.querySelector('.timeline-bar > input');
-  }
+  static timeline = document.querySelector('.timeline-bar > input');
 
-  static get srcMusic() {
-    return "./assets/sounds/";
-  }
+  static srcMusic = "./assets/sounds/";
 
-  static get srcAlbum() {
-    return "./assets/images/";
-  }
+  static srcAlbum = "./assets/images/";
 }
 
-const distanceOfDisplacement = 26;
-
 MusicPlayer.audio.lastVolume = 0;
-MusicPlayer.arm.displacementUnitOfArm = distanceOfDisplacement / parseFloat(MusicPlayer.audio.duration);
