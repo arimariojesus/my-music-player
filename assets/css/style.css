@@ -327,6 +327,11 @@ img {
     6px 6px 8px #a7aaaf;
   cursor: pointer;
 }
+.btn:active {
+  background: transparent;
+  box-shadow: none;
+  transform: scale(0.9);
+}
 .pause {
   width: 50px;
   height: 50px;
