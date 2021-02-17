@@ -59,25 +59,31 @@ export class MusicPlayer {
     armElement.style.transform = `rotate(${rotationUnit}deg)`;
   }
 
-  next(audioState) {
-    const listLength = this.musics.length - 1;
-    this.current = this.current >= listLength ? 0 : this.current + 1;
+  setMusic() {
     const srcMusic = MusicPlayer.srcMusic + this.musics[this.current].musicFile;
     const srcAlbum = MusicPlayer.srcAlbum + this.musics[this.current].albumFile;
+    const musicNameElm = document.querySelector('.music-name');
+    const musicPerformerElm = document.querySelector('.music-performer');
     
     MusicPlayer.audio.setAttribute('src', srcMusic);
     MusicPlayer.disc.setAttribute('src', srcAlbum);
+    musicNameElm.innerHTML = this.musics[this.current].name;
+    musicPerformerElm.innerHTML = this.musics[this.current].performer;
+  }
+
+  next(audioState) {
+    const listLength = this.musics.length - 1;
+    this.current = this.current >= listLength ? 0 : this.current + 1;
+    
+    this.setMusic();
     if(audioState) MusicPlayer.audio.play();
   }
 
   prev(audioState) {
     const listLength = this.musics.length - 1;
     this.current = this.current <= 0 ? listLength : this.current - 1;
-    const srcMusic = MusicPlayer.srcMusic + this.musics[this.current].musicFile;
-    const srcAlbum = MusicPlayer.srcAlbum + this.musics[this.current].albumFile;
     
-    MusicPlayer.audio.setAttribute('src', srcMusic);
-    MusicPlayer.disc.setAttribute('src', srcAlbum);
+    this.setMusic();
     if(audioState) MusicPlayer.audio.play();
   }
 
