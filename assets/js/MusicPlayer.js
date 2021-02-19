@@ -2,6 +2,7 @@ export class MusicPlayer {
   constructor(musicList = [{}]) {
     this.musics = musicList;
     this.current = 0;
+    this.playing = false;
   }
 
   handlePlayPause(btn) {
@@ -9,11 +10,15 @@ export class MusicPlayer {
       MusicPlayer.arm.classList.remove('initialPosition');
 
     if(btn.classList.contains('bx-play')) {
+      this.playing = true;
       MusicPlayer.audio.play();
+
       btn.classList = 'bx bx-pause';
       btn.parentElement.classList.add('btn-active');
     }else {
+      this.playing = false;
       MusicPlayer.audio.pause();
+      
       btn.classList = 'bx bx-play';
       btn.parentElement.classList.remove('btn-active');
     }

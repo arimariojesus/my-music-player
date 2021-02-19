@@ -1,5 +1,5 @@
 import { MusicPlayer } from "./MusicPlayer.js";
-import musicsData from "./musicsData.js";
+import { musicsData, createMusicWrapper } from "./musicsData.js";
 
 const playBtn = document.querySelector('.pause');
 const timeline = document.querySelector('.timeline-bar input[type=range]');
@@ -31,6 +31,68 @@ document.addEventListener('click', function(e) {
   const elm = e.target;
   const classList = elm.classList;
   const stateBtnPlay = playBtn.classList.contains('btn-active');
+
+  /*=== v GIVE MAINTENANCE v ===*/
+  if(elm.classList.contains('bxs-playlist')) {
+    const elmts = [
+      document.querySelector('.recorder-music'),
+      document.querySelector('.play-timeline'),
+      document.querySelector('.music-options'),
+      document.querySelector('.music-changer')
+    ];
+    const queue = document.querySelector('.queue');
+
+    queue.addEventListener('click', function(event) {
+      if(event.target.classList.contains('bx-play')) {
+        const curr = event.target.getAttribute('data-music');
+        
+        MyPlayer.current = Number(curr);
+        MyPlayer.setMusic();
+
+        document.querySelectorAll('.queue__music').forEach((music, index) => {
+          if(MyPlayer.current === index) {
+            if(index === MyPlayer.current) {
+              music.classList.add('playing');
+              music.querySelector('.queue__music-pause').classList.add('btn-playing');
+            }
+          }else {
+            music.classList.remove('playing');
+            music.querySelector('.queue__music-pause').classList.remove('btn-playing');
+            music.querySelector('.queue__music-pause > i').classList = 'bx bx-play';
+          }
+        });
+      }
+
+      if(event.target.classList.contains('bx-pause')) {
+        event.target.parentElement.classList.remove('btn-playing');
+      }
+    });
+
+    if(!queue.classList.contains('queue-show')) {
+      musicsData.forEach((music, index) => {
+        const queueMusic = createMusicWrapper(music, index);
+
+        if(index === MyPlayer.current) {
+          queueMusic.classList.add('playing');
+
+          if(MyPlayer.playing) {
+            queueMusic.querySelector('.queue__music-pause').classList.add('btn-playing');
+          }
+        }
+
+        queue.appendChild(queueMusic);
+      });
+    }else {
+      queue.innerHTML = '';
+    }
+    
+    queue.classList.toggle('queue-show');
+
+    for(e of elmts) {
+      e.classList.toggle('display-hidden');
+    }
+  }
+  /*=== ^ GIVE MAINTENANCE ^ ===*/
 
   if(classList.contains('bx-pause') || classList.contains('bx-play')) MyPlayer.handlePlayPause(elm);
   if(elm.id === 'like-icon') handleLike(elm);
