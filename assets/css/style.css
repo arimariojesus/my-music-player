@@ -19,6 +19,10 @@ img {
   pointer-events: none;
 }
 
+i {
+  pointer-events: none;
+}
+
 .music-player {
   height: 573px;
   width: 320px;
@@ -164,6 +168,8 @@ img {
   text-shadow: 2px 2px 6px rgba(0, 0, 0, 0.15);
 }
 .like-switch, .volume-wrapper {
+  width: 40px;
+  height: 40px;
   cursor: pointer;
 }
 .like-switch i {
@@ -177,8 +183,6 @@ img {
 .volume-wrapper {
   position: relative;
   right: 0;
-  width: 40px;
-  height: 40px;
   position: relative;
 }
 .volume-wrapper i {
@@ -310,7 +314,7 @@ img {
 .music-changer i {
   font-size: inherit;
 }
-.prev, .pause, .next {
+.prev, .play-pause, .next {
   display: flex;
   align-items: center;
   justify-content: center;
@@ -332,7 +336,7 @@ img {
   box-shadow: none;
   transform: scale(0.9);
 }
-.pause {
+.play-pause {
   width: 50px;
   height: 50px;
   box-shadow: 
@@ -423,7 +427,7 @@ img {
   color: #777;
 }
 
-.queue__music-like, .queue__music-pause {
+.queue__music-like, .queue__music-play {
   position: absolute;
   color: #9aa2b1;
 }
@@ -432,7 +436,7 @@ img {
   font-size: 20px;
   right: 50px;
 }
-.queue__music-pause {
+.queue__music-play {
   font-size: 25px;
   right: 10px;
   width: 30px;

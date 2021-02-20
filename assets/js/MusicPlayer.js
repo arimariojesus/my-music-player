@@ -3,37 +3,52 @@ export class MusicPlayer {
     this.musics = musicList;
     this.current = 0;
     this.playing = false;
+    this.playPromise = undefined;
   }
 
   handlePlayPause(btn) {
+    const icon = btn.querySelector('i');
     if(MusicPlayer.arm.classList.contains('initialPosition'))
       MusicPlayer.arm.classList.remove('initialPosition');
 
-    if(btn.classList.contains('bx-play')) {
-      this.playing = true;
-      MusicPlayer.audio.play();
+    if(!this.playing) {
+      this.handlePlay();
 
-      btn.classList = 'bx bx-pause';
-      btn.parentElement.classList.add('btn-active');
+      icon.classList = 'bx bx-pause';
+      icon.parentElement.classList.add('btn-active');
     }else {
       this.playing = false;
       MusicPlayer.audio.pause();
       
-      btn.classList = 'bx bx-play';
-      btn.parentElement.classList.remove('btn-active');
+      icon.classList = 'bx bx-play';
+      icon.parentElement.classList.remove('btn-active');
+    }
+  }
+
+  handlePlay() {
+    if(this.playPromise) this.playPromise = undefined;
+
+    this.playPromise = MusicPlayer.audio.play();
+
+    if(this.playPromise !== undefined) {
+      this.playPromise.then(_ => {
+        this.playing = true;
+      });
     }
   }
 
   handleVolume(elm) {
+    const icon = elm.querySelector('i');
     const lastVolume = MusicPlayer.audio.lastVolume;
-    if(!elm.classList.contains('bxs-volume-mute')) {
+    
+    if(!icon.classList.contains('bxs-volume-mute')) {
       MusicPlayer.audio.lastVolume = MusicPlayer.audio.volume;
       MusicPlayer.audio.volume = 0;
-      elm.classList = 'bx bxs-volume-mute';
+      icon.classList = 'bx bxs-volume-mute';
     }else {
       
       MusicPlayer.audio.volume = lastVolume;
-      this.handleVolumeIcon(lastVolume, elm);
+      this.handleVolumeIcon(lastVolume, icon);
     }
   }
 
@@ -76,20 +91,20 @@ export class MusicPlayer {
     musicPerformerElm.innerHTML = this.musics[this.current].performer;
   }
 
-  next(audioState) {
+  next() {
     const listLength = this.musics.length - 1;
     this.current = this.current >= listLength ? 0 : this.current + 1;
     
     this.setMusic();
-    if(audioState) MusicPlayer.audio.play();
+    if(this.playing) this.handlePlay();
   }
 
-  prev(audioState) {
+  prev() {
     const listLength = this.musics.length - 1;
     this.current = this.current <= 0 ? listLength : this.current - 1;
     
     this.setMusic();
-    if(audioState) MusicPlayer.audio.play();
+    if(this.playing) this.handlePlay();
   }
 
   static audio = document.getElementById('sound');

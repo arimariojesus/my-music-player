@@ -1,7 +1,7 @@
 import { MusicPlayer } from "./MusicPlayer.js";
 import { musicsData, createMusicWrapper } from "./musicsData.js";
 
-const playBtn = document.querySelector('.pause');
+const playBtn = document.querySelector('.play-pause');
 const timeline = document.querySelector('.timeline-bar input[type=range]');
 const currentTimeElm = document.querySelector('.time-current');
 const durationTimeElm = document.querySelector('.time-duration');
@@ -30,10 +30,9 @@ function handleLike(elm) {
 document.addEventListener('click', function(e) {
   const elm = e.target;
   const classList = elm.classList;
-  const stateBtnPlay = playBtn.classList.contains('btn-active');
 
   /*=== v GIVE MAINTENANCE v ===*/
-  if(elm.classList.contains('bxs-playlist')) {
+  if(elm.classList.contains('music-playqueue')) {
     const elmts = [
       document.querySelector('.recorder-music'),
       document.querySelector('.play-timeline'),
@@ -43,28 +42,34 @@ document.addEventListener('click', function(e) {
     const queue = document.querySelector('.queue');
 
     queue.addEventListener('click', function(event) {
-      if(event.target.classList.contains('bx-play')) {
-        const curr = event.target.getAttribute('data-music');
+      const target = event.target;
+      const innerElement = target.querySelector('i');
+
+      if(target.classList.contains('queue__music-play')) {
+        const curr = innerElement.getAttribute('data-music');
+
+        if(target.classList.contains('btn-playing')) {
+          target.classList.remove('btn-playing');
+          MusicPlayer.audio.pause();
+          return;
+        }
         
         MyPlayer.current = Number(curr);
         MyPlayer.setMusic();
+        MyPlayer.handlePlayPause(playBtn);
 
         document.querySelectorAll('.queue__music').forEach((music, index) => {
           if(MyPlayer.current === index) {
             if(index === MyPlayer.current) {
               music.classList.add('playing');
-              music.querySelector('.queue__music-pause').classList.add('btn-playing');
+              music.querySelector('.queue__music-play').classList.add('btn-playing');
             }
           }else {
             music.classList.remove('playing');
-            music.querySelector('.queue__music-pause').classList.remove('btn-playing');
-            music.querySelector('.queue__music-pause > i').classList = 'bx bx-play';
+            music.querySelector('.queue__music-play').classList.remove('btn-playing');
+            music.querySelector('.queue__music-play > i').classList = 'bx bx-play';
           }
         });
-      }
-
-      if(event.target.classList.contains('bx-pause')) {
-        event.target.parentElement.classList.remove('btn-playing');
       }
     });
 
@@ -76,7 +81,7 @@ document.addEventListener('click', function(e) {
           queueMusic.classList.add('playing');
 
           if(MyPlayer.playing) {
-            queueMusic.querySelector('.queue__music-pause').classList.add('btn-playing');
+            queueMusic.querySelector('.queue__music-play').classList.add('btn-playing');
           }
         }
 
@@ -94,11 +99,11 @@ document.addEventListener('click', function(e) {
   }
   /*=== ^ GIVE MAINTENANCE ^ ===*/
 
-  if(classList.contains('bx-pause') || classList.contains('bx-play')) MyPlayer.handlePlayPause(elm);
-  if(elm.id === 'like-icon') handleLike(elm);
-  if(elm.id === 'volume-icon') MyPlayer.handleVolume(elm);
-  if(classList.contains('bx-skip-next')) MyPlayer.next(stateBtnPlay);
-  if(classList.contains('bx-skip-previous')) MyPlayer.prev(stateBtnPlay);
+  if(classList.contains('play-pause')) MyPlayer.handlePlayPause(elm);
+  if(elm.classList.contains('like-switch')) handleLike(elm);
+  if(elm.classList.contains('volume-wrapper')) MyPlayer.handleVolume(elm);
+  if(classList.contains('next')) MyPlayer.next();
+  if(classList.contains('prev')) MyPlayer.prev();
 });
 
 function convertSecondsToMinutes(seconds = 0) {
@@ -134,8 +139,8 @@ MusicPlayer.audio.ontimeupdate = () => {
   MyPlayer.armDisplacement(currentTime);
   MyPlayer.rotateDisc(currentTime * 10);
 
-  if(parseInt(timeline.value) >= parseInt(timeline.max)) {
-    MyPlayer.next(playBtn.classList.contains('btn-active'));
+  if(MusicPlayer.audio.ended) {
+    MyPlayer.next();
   }
 }
 

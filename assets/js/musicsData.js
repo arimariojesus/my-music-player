@@ -38,7 +38,7 @@ function createMusicWrapper(music, curr) {
     <div class="queue__music-like">
       <i class='bx bxs-heart' id="like-icon"></i>
     </div>
-    <div class="queue__music-pause">
+    <div class="queue__music-play">
       <i class='bx bx-play' data-music="${curr}"></i>
     </div>
   `;
