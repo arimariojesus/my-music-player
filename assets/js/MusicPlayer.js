@@ -1,4 +1,4 @@
-export class MusicPlayer {
+export default class MusicPlayer {
   constructor(musicList = [{}]) {
     this.musics = musicList;
     this.current = 0;
@@ -6,8 +6,9 @@ export class MusicPlayer {
     this.playPromise = undefined;
   }
 
-  handlePlayPause(btn) {
-    const icon = btn.querySelector('i');
+  handlePlayPause() {
+    const icon = MusicPlayer.playButton.children[0];
+
     if(MusicPlayer.arm.classList.contains('initialPosition'))
       MusicPlayer.arm.classList.remove('initialPosition');
 
@@ -120,6 +121,10 @@ export class MusicPlayer {
   static srcMusic = "./assets/sounds/";
 
   static srcAlbum = "./assets/images/";
+
+  static playButton = document.querySelector('.play-pause');
+  static nextButton = document.querySelector('.next.btn');
+  static prevButton = document.querySelector('.prev.btn');
 }
 
 MusicPlayer.audio.lastVolume = 0;
