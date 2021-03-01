@@ -3,7 +3,6 @@ export default class MusicPlayer {
     this.musics = musicList;
     this.current = 0;
     this.playing = false;
-    this.playPromise = undefined;
   }
 
   handlePlayPause() {
@@ -13,28 +12,17 @@ export default class MusicPlayer {
       MusicPlayer.arm.classList.remove('initialPosition');
 
     if(!this.playing) {
-      this.handlePlay();
+      MusicPlayer.audio.play();
+      this.playing = true;
 
       icon.classList = 'bx bx-pause';
       icon.parentElement.classList.add('btn-active');
     }else {
-      this.playing = false;
       MusicPlayer.audio.pause();
+      this.playing = false;
       
       icon.classList = 'bx bx-play';
       icon.parentElement.classList.remove('btn-active');
-    }
-  }
-
-  handlePlay() {
-    if(this.playPromise) this.playPromise = undefined;
-
-    this.playPromise = MusicPlayer.audio.play();
-
-    if(this.playPromise !== undefined) {
-      this.playPromise.then(_ => {
-        this.playing = true;
-      });
     }
   }
 
@@ -97,7 +85,7 @@ export default class MusicPlayer {
     this.current = this.current >= listLength ? 0 : this.current + 1;
     
     this.setMusic();
-    if(this.playing) this.handlePlay();
+    if(this.playing) MusicPlayer.audio.play();
   }
 
   prev() {
@@ -105,7 +93,7 @@ export default class MusicPlayer {
     this.current = this.current <= 0 ? listLength : this.current - 1;
     
     this.setMusic();
-    if(this.playing) this.handlePlay();
+    if(this.playing) MusicPlayer.audio.play();
   }
 
   static audio = document.getElementById('sound');

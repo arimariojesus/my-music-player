@@ -1,16 +1,29 @@
 import { musicsData, createMusicWrapper } from "./musicsData.js";
-import MusicPlayer from '../MusicPlayer.js';
 
-export default function musicQueue(MyPlayer) {
-  const elmtsToHidden = [
-    document.querySelector('.recorder-music'),
-    document.querySelector('.play-timeline'),
-    document.querySelector('.music-options'),
-    document.querySelector('.music-changer')
-  ];
-  const queueField = document.querySelector('.queue');
+const queueField = document.querySelector('.queue');
+const elmtsToHidden = [
+  document.querySelector('.recorder-music'),
+  document.querySelector('.play-timeline'),
+  document.querySelector('.music-options'),
+  document.querySelector('.music-changer')
+];
+
+let Player = null;
+
+export default function musicQueue(MyPlayer, display = false) {
+  Player = MyPlayer;
+  queueField.removeEventListener('click', handleClick, false);
+
+  if(display) {
+    checkCurrent(MyPlayer.current, MyPlayer.playing);
+    return;
+  }
 
   if(!queueField.classList.contains('queue-show')) {
+    for(let currentElm of elmtsToHidden) {
+      currentElm.classList.add('display-hidden');
+    }
+
     queueField.classList.add('queue-show');
 
     if(!queueField.innerHTML) {
@@ -22,32 +35,46 @@ export default function musicQueue(MyPlayer) {
 
     checkCurrent(MyPlayer.current, MyPlayer.playing);
 
-    queueField.addEventListener('click', function(event) {
-      const target = event.target;
-  
-      if(target.classList.contains('queue__music-play')) {
-        if(target.classList.contains('btn-playing')) {
-          target.classList.remove('btn-playing');
-          MusicPlayer.audio.pause();
-          return;
-        }
-  
-        const curr = target.querySelector('i').getAttribute('data-music');
-        
-        MyPlayer.current = Number(curr);
-        MyPlayer.setMusic();
-        MyPlayer.handlePlayPause();
-  
-        checkCurrent(MyPlayer.current, true);
-      }
-    });
+    queueField.addEventListener('click', handleClick, false);
+    
   }else {
-    queueField.classList.remove('queue-show');
+    hideQueue(queueField);
+  }
+}
+
+function handleClick(event) {
+  const target = event.target;
+
+  if(target.classList.contains('queue__music-play')) {
+    if(target.classList.contains('btn-playing')) {
+      target.classList.remove('btn-playing');
+      Player.handlePlayPause();
+    }else {
+      if(target.parentElement.classList.contains('current')) {
+        Player.handlePlayPause();
+        target.classList.add('btn-playing');
+        return;
+      }
+
+      if(Player.playing) Player.playing = false;
+
+      const curr = target.querySelector('i').getAttribute('data-music');
+      
+      Player.current = Number(curr);
+      Player.setMusic();
+      Player.handlePlayPause();
+
+      checkCurrent(Player.current, true);
+    }
+  }
+}
+
+function hideQueue(queueElm) {
+  for(let currentElm of elmtsToHidden) {
+    currentElm.classList.remove('display-hidden');
   }
 
-  for(let currentElm of elmtsToHidden) {
-    currentElm.classList.toggle('display-hidden');
-  }
+  queueElm.classList.remove('queue-show');
 }
 
 function checkCurrent(currMusic, playing) {
@@ -55,7 +82,7 @@ function checkCurrent(currMusic, playing) {
 
   musicListElmts.forEach((currField, index) => {
     if(index === currMusic) {
-      currField.classList.add('playing');
+      currField.classList.add('current');
 
       if(playing) {
         currField.querySelector('.queue__music-play').classList.add('btn-playing');
@@ -63,7 +90,7 @@ function checkCurrent(currMusic, playing) {
         currField.querySelector('.queue__music-play').classList.remove('btn-playing');
       }
     }else {
-      currField.classList.remove('playing');
+      currField.classList.remove('current');
       currField.querySelector('.queue__music-play').classList.remove('btn-playing');
     }
   });

@@ -387,7 +387,7 @@ i {
   font-size: inherit;
   color: inherit;
 }
-.playing {
+.current {
   background: linear-gradient(160deg, 
                             #B4C3DA, #d0dee9);
 }

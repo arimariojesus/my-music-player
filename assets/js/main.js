@@ -75,6 +75,7 @@ MusicPlayer.audio.ontimeupdate = () => {
 
   if(MusicPlayer.audio.ended) {
     MyPlayer.next();
+    handleMusicQueue(MyPlayer, true);
   }
 }
 
