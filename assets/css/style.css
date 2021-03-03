@@ -485,6 +485,7 @@ i {
 @media screen and (max-width: 375px) {
   body {
     background: linear-gradient(-45deg, #e4eaee, #d0dee9);
+    overscroll-behavior: none;
   }
   .music-player {
     width: 100vw;
