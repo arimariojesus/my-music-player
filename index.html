@@ -2,7 +2,7 @@
 <html lang="pt-BR">
 <head>
   <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
 
   <!--=== CSS ===-->
   <link rel="stylesheet" href="./assets/css/style.css">
@@ -62,6 +62,11 @@
     </div>
 
     <div class="music-changer">
+      <label class="shuffle" for="shuffle">
+        <input type="checkbox" id="shuffle" style="display: none">
+        <i class='bx bx-shuffle' ></i>
+      </label>
+
       <div class="prev btn">
         <i class='bx bx-skip-previous'></i>
       </div>
@@ -71,6 +76,11 @@
       <div class="next btn">
         <i class='bx bx-skip-next' ></i>
       </div>
+
+      <label class="repeat" for="repeat">
+        <input type="checkbox" id="repeat" style="display: none">
+        <i class='bx bx-repeat' ></i>
+      </label>
     </div>
     
     <div class="queue"></div>

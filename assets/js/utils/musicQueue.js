@@ -1,5 +1,6 @@
 import { musicsData, createMusicWrapper } from "./musicsData.js";
 
+const playqueueButtonIcon = document.querySelector('.music-playqueue   i');
 const queueField = document.querySelector('.queue');
 const elmtsToHidden = [
   document.querySelector('.recorder-music'),
@@ -20,6 +21,8 @@ export default function musicQueue(MyPlayer, display = false) {
   }
 
   if(!queueField.classList.contains('queue-show')) {
+    playqueueButtonIcon.classList.replace('bxs-playlist', 'bxs-chevron-down');
+
     for(let currentElm of elmtsToHidden) {
       currentElm.classList.add('display-hidden');
     }
@@ -38,6 +41,7 @@ export default function musicQueue(MyPlayer, display = false) {
     queueField.addEventListener('click', handleClick, false);
     
   }else {
+    playqueueButtonIcon.classList.replace('bxs-chevron-down', 'bxs-playlist');
     hideQueue(queueField);
   }
 }

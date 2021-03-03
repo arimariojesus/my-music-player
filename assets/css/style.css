@@ -12,6 +12,8 @@ body {
   display: flex;
   align-items: center;
   justify-content: center;
+
+  -webkit-tap-highlight-color: transparent;
 }
 img {
   height: 100%;
@@ -304,12 +306,10 @@ i {
 .music-changer {
   margin-top: 60px;
   height: 40px;
+  font-size: 40px;
   display: flex;
   align-items: center;
-  justify-content: space-evenly;
-}
-.music-changer {
-  font-size: 40px;
+  justify-content: space-between;
 }
 .music-changer i {
   font-size: inherit;
@@ -470,11 +470,25 @@ i {
   content: "\eb10";
 }
 
+/*=== Repeat Button and Shuffle Button ===*/
+.repeat, .shuffle {
+  font-size: 24px;
+  color: #9aa2b1;
+  text-shadow: 2px 2px 6px rgba(0, 0, 0, 0.15);
+  cursor: pointer;
+}
+#repeat:checked ~ i, #shuffle:checked ~ i {
+  color: rgba(77, 104, 243, 1);
+  text-shadow: 2px 2px 4px rgba(77, 104, 243, 0.4);
+}
+
 @media screen and (max-width: 375px) {
   body {
     background: linear-gradient(-45deg, #e4eaee, #d0dee9);
   }
   .music-player {
+    width: 100vw;
+    height: 100vh;
     box-shadow: none;
     background: transparent;
   }

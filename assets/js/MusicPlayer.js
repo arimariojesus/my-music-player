@@ -1,9 +1,22 @@
+import {rand, shuffle} from './utils/utilities.js';
+
 export default class MusicPlayer {
   constructor(musicList = [{}]) {
     this.musics = musicList;
     this.current = 0;
+    this.alreadyPlayed = 0;
     this.playing = false;
+    this.repeat = true;
+    this.shuffle = true;
+    
+    this.playlist = [];
+    for(let i = 1; i < this.musics.length; i++) this.playlist.push(i);
+    this.playlist = shuffle(this.playlist);
+    this.playlist.unshift(0);
+
+    this.setMusic();
   }
+  
 
   handlePlayPause() {
     const icon = MusicPlayer.playButton.children[0];
@@ -82,7 +95,38 @@ export default class MusicPlayer {
 
   next() {
     const listLength = this.musics.length - 1;
-    this.current = this.current >= listLength ? 0 : this.current + 1;
+    
+    if(this.shuffle) {
+      console.log(this.playlist);
+      console.log(this.playlist.indexOf(this.current));
+
+      this.alreadyPlayed = this.alreadyPlayed + 1;
+      this.current = this.playlist[this.alreadyPlayed];
+
+      if(this.alreadyPlayed > listLength) {
+        this.alreadyPlayed = 0;
+        this.current = this.playlist[0];
+
+        if(!this.repeat) {
+          this.alreadyPlayed = 0;
+          this.playing = true;
+          this.handlePlayPause();
+          this.playing = false;
+        }
+      }
+    }else {
+      this.current = this.current + 1;
+      if(this.current > listLength) {
+        if(this.repeat) {
+          this.current = 0;
+        }else {
+          this.playing = true;
+          this.current = 0;
+          this.handlePlayPause();
+          this.playing = false;
+        }
+      }
+    }
     
     this.setMusic();
     if(this.playing) MusicPlayer.audio.play();
@@ -90,7 +134,13 @@ export default class MusicPlayer {
 
   prev() {
     const listLength = this.musics.length - 1;
-    this.current = this.current <= 0 ? listLength : this.current - 1;
+
+    this.alreadyPlayed =
+      this.alreadyPlayed - 1 < 0 ?
+      listLength :
+      this.alreadyPlayed - 1;
+
+    this.current = this.playlist[this.alreadyPlayed];
     
     this.setMusic();
     if(this.playing) MusicPlayer.audio.play();
