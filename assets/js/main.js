@@ -2,11 +2,10 @@ import MusicPlayer from "./MusicPlayer.js";
 import handleMusicQueue from "./utils/musicQueue.js";
 import { musicsData } from "./utils/musicsData.js";
 
-const playBtn = document.querySelector('.play-pause'),
-      timeline = document.querySelector('.timeline-bar input[type=range]'),
+const timeline = document.querySelector('.timeline-bar input[type=range]'),
       currentTimeElm = document.querySelector('.time-current'),
       durationTimeElm = document.querySelector('.time-duration'),
-      arm = document.querySelector('.arm-wrapper');
+      queueWrapper = document.querySelector('.queue');
 
 const MyPlayer = new MusicPlayer(musicsData);
 
@@ -61,14 +60,6 @@ function timeManipulation(currentTime) {
   currentTimeElm.innerHTML = convertSecondsToMinutes(currentTime);
 }
 
-function finished() {
-  playBtn.classList.remove('btn-active');
-  playBtn.children[0].classList.replace('bx-pause', 'bx-play');
-  MusicPlayer.audio.currentTime = 0;
-  MusicPlayer.audio.pause();
-  arm.classList.add('initialPosition');
-}
-
 timeline.addEventListener('input', function(e) {
   MusicPlayer.audio.currentTime = e.target.value;
 });
@@ -94,3 +85,32 @@ MusicPlayer.volume.addEventListener('input', function(e) {
 
   MyPlayer.handleVolumeIcon(volumeChange, volumeIcon);
 });
+
+let pos = {};
+
+const mouseDownHandlerInQueue = (e) => {
+  queueWrapper.style.userSelect = 'none';
+
+  pos = {
+    top: queueWrapper.scrollTop,
+    y: e.clientY
+  }
+
+  document.addEventListener('mousemove', mouseMoveHandler);
+  document.addEventListener('mouseup', mouseUpHandler);
+};
+
+const mouseMoveHandler = (e) => {
+  const dy = e.clientY - pos.y;
+
+  queueWrapper.scrollTop = pos.top - dy;
+};
+
+const mouseUpHandler = (e) => {
+  queueWrapper.style.removeProperty('user-select');
+
+  document.removeEventListener('mousemove', mouseMoveHandler);
+  document.removeEventListener('mouseup', mouseUpHandler);
+}
+
+queueWrapper.addEventListener('mousedown', mouseDownHandlerInQueue);
