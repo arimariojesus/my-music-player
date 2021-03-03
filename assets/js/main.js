@@ -32,6 +32,14 @@ document.addEventListener('click', function(e) {
   const elm = e.target;
   const classList = elm.classList;
 
+  if(classList.contains('repeat')) {
+    const repeatValue = !elm.firstElementChild.checked;
+    MyPlayer.repeat = repeatValue;
+  }
+  if(classList.contains('shuffle')) {
+    const shuffleValue = !elm.firstElementChild.checked;
+    MyPlayer.shuffle = shuffleValue;
+  }
   if(classList.contains('music-playqueue')) handleMusicQueue(MyPlayer);
   if(classList.contains('play-pause')) MyPlayer.handlePlayPause(elm);
   if(classList.contains('like-switch')) handleLike(elm);

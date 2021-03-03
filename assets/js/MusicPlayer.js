@@ -6,8 +6,8 @@ export default class MusicPlayer {
     this.current = 0;
     this.alreadyPlayed = 0;
     this.playing = false;
-    this.repeat = true;
-    this.shuffle = true;
+    this.repeat = false;
+    this.shuffle = false;
     
     this.playlist = [];
     for(let i = 1; i < this.musics.length; i++) this.playlist.push(i);
@@ -97,8 +97,6 @@ export default class MusicPlayer {
     const listLength = this.musics.length - 1;
     
     if(this.shuffle) {
-      console.log(this.playlist);
-      console.log(this.playlist.indexOf(this.current));
 
       this.alreadyPlayed = this.alreadyPlayed + 1;
       this.current = this.playlist[this.alreadyPlayed];
@@ -135,12 +133,16 @@ export default class MusicPlayer {
   prev() {
     const listLength = this.musics.length - 1;
 
-    this.alreadyPlayed =
+    if(this.shuffle) {
+      this.alreadyPlayed =
       this.alreadyPlayed - 1 < 0 ?
       listLength :
       this.alreadyPlayed - 1;
 
-    this.current = this.playlist[this.alreadyPlayed];
+      this.current = this.playlist[this.alreadyPlayed];
+    }else {
+      this.current = this.current <= 0 ? listLength : this.current - 1;
+    }
     
     this.setMusic();
     if(this.playing) MusicPlayer.audio.play();
