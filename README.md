@@ -15,10 +15,6 @@
   <img src="./assets/images/myMusicPlayer.gif" width="500px" />
 </div>
 
-<div align="center">
- <strong>🚧 This project is under construction... 🚧</strong>
-</div>
-
 <hr>
 
 ### 💡 About
